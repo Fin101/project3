@@ -1,3 +1,6 @@
+const path = require('path')
+const dist = path.join(__dirname, 'dist')
+
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -24,5 +27,10 @@ expressServer.use((req, res, next) => {
 
 expressServer.use('/api', router)
 
+expressServer.use('/', express.static(dist))
+
+expressServer.get('*', function(req, res) {
+  res.sendFile(path.join(dist, 'index.html'))
+})
 
 expressServer.listen(8000)
