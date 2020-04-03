@@ -1,13 +1,13 @@
 const path = require('path')
 const dist = path.join(__dirname, 'dist')
-
+const { dbURI, port } = require('./config/environment')
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const router = require('./router')
 
 mongoose.connect(
-  'mongodb://localhost/recipe-db',
+  dbURI,
   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
 
   (err) => {
@@ -33,4 +33,6 @@ expressServer.get('*', function(req, res) {
   res.sendFile(path.join(dist, 'index.html'))
 })
 
-expressServer.listen(8000)
+expressServer.listen(port)
+
+module.exports = expressServer
